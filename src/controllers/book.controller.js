@@ -1,4 +1,4 @@
-import Book from './book.model.js';
+import Book from '../models/book.model.js';
 
 // create a book
 // POST /books
@@ -11,8 +11,10 @@ const createBook = async (req, res) => {
             publisher,
             publishing_year,
             genre,
-            authors
+            authors,
+            user: req.user._id
         });
+        await book.populate({path: "user", select: "first_name last_name"});
         res.status(201).json({
             data: book
         });
@@ -25,7 +27,8 @@ const createBook = async (req, res) => {
 // GET /books
 const getBooks = async (req, res) => {
     try {
-        const books = await Book.find({});
+        const books = await Book.find({})
+            .populate({path: "user", select: "first_name last_name"});
         res.status(200).json({
             data: books,
             message: 'Books retrieved successfully'
@@ -40,7 +43,8 @@ const getBooks = async (req, res) => {
 const getBook = async (req, res) => {
     try {
         const {id} = req.params;
-        const book = await Book.findById(id);
+        const book = await Book.findById(id)
+            .populate({path: "user", select: "first_name last_name"});
         if (!book) {
             return res.status(404).json({
                 message: `Book with id ${id} not found`
@@ -60,14 +64,16 @@ const getBook = async (req, res) => {
 const updateBook = async (req, res) => {
     try {
         const {id} = req.params;
-        const book = await Book.findById(id);
+        const book = await Book.findOne({_id: id, user: req.user._id})
+            .populate({path: "user", select: "first_name last_name"});
         if (!book) {
             return res.status(404).json({
                 message: `Book with id ${id} not found`
             });
         }
         await book.updateOne(req.body);
-        const updatedBook = await Book.findById(id);
+        const updatedBook = await Book.findById(id)
+            .populate({path: "user", select: "first_name last_name"});
         res.status(200).json({
             data: updatedBook,
             message: 'Book updated successfully'
@@ -82,7 +88,7 @@ const updateBook = async (req, res) => {
 const deleteBook = async (req, res) => {
     try {
         const {id} = req.params;
-        const book = await Book.findById(id);
+        const book = await Book.findOne({_id: id, user: req.user._id});
         if (!book) {
             return res.status(404).json({
                 message: `Book with id ${id} not found`

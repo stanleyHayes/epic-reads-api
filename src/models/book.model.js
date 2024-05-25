@@ -29,6 +29,11 @@ const bookSchema = new mongoose.Schema({
     authors: {
         type: [String],
         required: true
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User',
     }
 }, {
     timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'},
