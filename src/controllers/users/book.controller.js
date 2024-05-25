@@ -1,9 +1,14 @@
-import Book from '../models/book.model.js';
+import Book from '../../models/book.model.js';
 
 // create a book
 // POST /books
 const createBook = async (req, res) => {
     try {
+        if(!req.user.permissions.book.create){
+            return res.status(401).json({
+                message: 'You are not allowed to publish a book.'
+            });
+        }
         const {title, rating, publisher, publishing_year, genre, authors} = req.body;
         const book = await Book.create({
             title,
@@ -63,6 +68,11 @@ const getBook = async (req, res) => {
 // PUT /books/:id
 const updateBook = async (req, res) => {
     try {
+        if(!req.user.permissions.book.update){
+            return res.status(401).json({
+                message: 'You are not allowed to update a book.'
+            });
+        }
         const {id} = req.params;
         const book = await Book.findOne({_id: id, user: req.user._id})
             .populate({path: "user", select: "first_name last_name"});
@@ -87,6 +97,11 @@ const updateBook = async (req, res) => {
 // DELETE /books/:id
 const deleteBook = async (req, res) => {
     try {
+        if(!req.user.permissions.book.remove){
+            return res.status(401).json({
+                message: 'You are not allowed to remove a book.'
+            });
+        }
         const {id} = req.params;
         const book = await Book.findOne({_id: id, user: req.user._id});
         if (!book) {

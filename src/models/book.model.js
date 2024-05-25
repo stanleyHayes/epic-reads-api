@@ -34,6 +34,10 @@ const bookSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User',
+    },
+    is_published: {
+        type: Boolean,
+        default: true
     }
 }, {
     timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'},

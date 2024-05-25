@@ -46,11 +46,50 @@ const userSchema = new mongoose.Schema({
                 type: String
             },
             otp: {
-                type: String
+                code: {
+                    type: String
+                },
+                expires_in: {
+                    type: Date
+                }
             }
         },
         address: {
             type: String
+        },
+        permissions: {
+            book: {
+                create: {
+                    type: Boolean,
+                    default: true
+                },
+                read: {
+                    type: Boolean,
+                    default: true
+                },
+                update: {
+                    type: Boolean,
+                    default: true
+                },
+                remove: {
+                    type: Boolean,
+                    default: false
+                }
+            },
+            authentication: {
+                login: {
+                    type: Boolean,
+                    default: true
+                }
+            }
+        },
+        is_email_verified: {
+            type: Boolean,
+            default: false
+        },
+        is_phone_number_verified: {
+            type: Boolean,
+            default: false
         }
     }, {
         timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'},

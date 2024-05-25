@@ -4,6 +4,7 @@ import express from 'express';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
+import expressSanitizer from "express-sanitizer";
 
 dotenv.config();
 
@@ -13,12 +14,13 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
     console.log(`Error connecting to MongoDB: ${error}`);
 });
 
-import bookRoutes from "./routes/book.routes.js";
-import authRoutes from "./routes/auth.routes.js";
+import bookRoutes from "./routes/users/book.routes.js";
+import authRoutes from "./routes/users/auth.routes.js";
 
 const app = express();
 // helps to transform the request body and makes
 // it available on the req.body
+app.use(expressSanitizer());
 app.use(express.json());
 app.use(cors());
 app.use(helmet());

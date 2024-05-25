@@ -1,6 +1,6 @@
 import {Router} from 'express';
-import {createBook, getBooks, getBook, updateBook, deleteBook} from "../controllers/book.controller.js";
-import authenticate from "../middleware/authenticate.js";
+import {createBook, getBooks, getBook, updateBook, deleteBook} from "../../controllers/users/book.controller.js";
+import authenticate from "../../middleware/users/authenticate.js";
 
 const router = Router();
 

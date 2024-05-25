@@ -1,19 +1,18 @@
 import jwt from "jsonwebtoken";
-import User from "../models/user.model.js";
+import User from "../../models/user.model.js";
 
 
 const authenticate = async (req, res, next) => {
     try {
-        console.log(process.env.JWT_SECRET);
         const authorization = req.headers.authorization;
         const [bearer, token] = authorization.split(' ');
         if(bearer !== undefined && bearer !== "Bearer") {
-            return res.status(401).send({
+            return res.status(401).json({
                 message: 'Malformed header'
             });
         }
         if(token === undefined || token === "") {
-            return res.status(401).send({
+            return res.status(401).json({
                 message: 'Token is required to access this route'
             });
         }
@@ -22,7 +21,7 @@ const authenticate = async (req, res, next) => {
             email, _id, "auth.token": token
         });
         if (!user) {
-            return res.status(401).send({
+            return res.status(401).json({
                 message: 'Authentication failed'
             });
         }
