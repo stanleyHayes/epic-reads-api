@@ -1,6 +1,6 @@
 import {Router} from 'express';
-import {changePassword, login, register, verifyEmail, verifyPhoneNumber} from "../../controllers/users/auth.controller.js";
-import authenticate from "../../middleware/users/authenticate.js";
+import {changePassword, login, register, verifyEmail, verifyPhoneNumber} from "../../../controllers/v1/users/auth/auth.controller.js";
+import authenticate from "../../../middleware/v1/users/authenticate.js";
 
 const router = Router();
 

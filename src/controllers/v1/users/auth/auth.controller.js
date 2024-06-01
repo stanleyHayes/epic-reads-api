@@ -3,9 +3,9 @@ import jwt from 'jsonwebtoken';
 import otpGenerator from 'otp-generator';
 import validator from "validator";
 
-import User from "../../models/user.model.js";
+import User from "../../../../models/v1/user.model.js";
 import moment from "moment";
-import {sendEmail} from "../../utils/emails.js";
+import {sendEmail} from "../../../../utils/v1/emails.js";
 
 
 const register = async (req, res) => {

@@ -14,8 +14,8 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
     console.log(`Error connecting to MongoDB: ${error}`);
 });
 
-import bookRoutes from "./routes/users/book.routes.js";
-import authRoutes from "./routes/users/auth.routes.js";
+import bookV1Routes from "./routes/v1/users/book.routes.js";
+import authV1Routes from "./routes/v1/users/auth.routes.js";
 
 const app = express();
 // helps to transform the request body and makes
@@ -26,8 +26,8 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
 
-app.use("/books", bookRoutes);
-app.use("/auth", authRoutes);
+app.use("/api/v1/books", bookV1Routes);
+app.use("/api/v1/auth", authV1Routes);
 
 const PORT = process.env.PORT;
 

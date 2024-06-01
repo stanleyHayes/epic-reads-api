@@ -4,7 +4,8 @@ const bookSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        index: true,
     },
     rating: {
         type: Number,
@@ -15,7 +16,7 @@ const bookSchema = new mongoose.Schema({
     publisher: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
     },
     publishing_year: {
         type: Number,
@@ -42,8 +43,11 @@ const bookSchema = new mongoose.Schema({
 }, {
     timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'},
     toJSON: {virtuals: true},
-    toObject: {virtuals: true}
+    toObject: {virtuals: true},
+
 });
+
+bookSchema.index({title: 'text'});
 
 const Book = mongoose.model('Book', bookSchema);
 export default Book;
