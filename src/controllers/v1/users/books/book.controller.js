@@ -1,5 +1,6 @@
 import Book from '../../../../models/v1/book.model.js';
 import bookDAOS from './../../../../daos/v1/books/book.dao.js';
+import logger from "../../../../utils/v1/logger.js";
 // create a book
 // POST /books
 const createBook = async (req, res) => {
@@ -142,6 +143,7 @@ const updateBook = async (req, res) => {
 const deleteBook = async (req, res) => {
     try {
         if (!req.user.permissions.book.remove) {
+            logger.error('You are not allowed to remove a book.');
             return res.status(401).json({
                 message: 'You are not allowed to remove a book.'
             });
@@ -149,6 +151,7 @@ const deleteBook = async (req, res) => {
         const {id} = req.params;
         const book = await Book.findOne({_id: id, user: req.user._id});
         if (!book) {
+            logger.error(`Book with id ${id} not found`);
             return res.status(404).json({
                 message: `Book with id ${id} not found`
             });
